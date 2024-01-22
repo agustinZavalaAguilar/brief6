@@ -32,7 +32,7 @@
             </tr>
             <!---Ligne exemple---->
             <?php foreach ($favoris as $favori) { ?>
-            <tr class="text-center bg-gray-100 hover:bg-gray-200 border border-gray-200 font-normal border border-gray-200 mx-auto max-w-screen-md">
+            <tr class="text-center bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal border border-gray-200 mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
                 <th class="font-normal" ><?= $favori['libelle'] ?></th>
                 <th class="font-normal" ><?= $favori['date_creation'] ?></th>
