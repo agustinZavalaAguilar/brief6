@@ -19,8 +19,8 @@
     <!--Affichage (SELECT) :-->
     <?php $result = $pdo->query("SELECT * FROM favoris /*WHERE prenom='julien'*/");
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);?>
-    <section id="favoris">
-        <table class="table_favori m-10 ">
+    <section id="favoris" class="flex justify-center">
+        <table class="table_favori m-10 border border-gray-300 shadow-lg">
             <!--Titres du tablau----------------------->
             <tr class="text-center text-blue-800 bg-gray-200 ">
                 <th>id favori</th>
@@ -32,15 +32,15 @@
             </tr>
             <!---Ligne exemple---->
             <?php foreach ($favoris as $favori) { ?>
-            <tr class="text-center bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal border border-gray-200 mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
+            <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal border border-gray-200 mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
-                <th class="font-normal" ><?= $favori['libelle'] ?></th>
-                <th class="font-normal" ><?= $favori['date_creation'] ?></th>
-                <th class="font-normal" ><?= $favori['url'] ?></th>
+                <th class="font-normal text-left" ><?= $favori['libelle'] ?></th>
+                <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
+                <th class="font-normal text-left w-40" ><?= $favori['url'] ?></th>
                 <th class="font-normal" ><?= $favori['id_domaine'] ?></th>
                 <th>
-                    <i class="fa-solid fa-pencil text-blue-800 m-1"></i>
-                    <i class="fa-solid fa-trash text-blue-800 m-1"></i>
+                    <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
+                    <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                 </th>
             </tr>
             <?php 
