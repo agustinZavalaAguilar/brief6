@@ -11,7 +11,7 @@
     <!-----------font Roboto--------------->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 </head>
-<body>
+<body class="bg-">
     <!---Cherche le fichier header, pour lisibilité---->
     <?php include("header.php"); ?>
     <!----Cherche le fichier qui questionne la base de données------>
@@ -19,8 +19,32 @@
     <!--Affichage (SELECT) :-->
     <?php $result = $pdo->query("SELECT * FROM favoris /*WHERE prenom='julien'*/");
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);?>
-    <section id="favoris" class="flex justify-center">
-        <table class="table_favori m-10 border border-gray-300 shadow-lg">
+    <!--Requête par categorie-->   
+    <?php $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
+    $categories = $result->fetchAll(PDO::FETCH_ASSOC);?>
+
+
+
+    <!--Requête par domaine-->   
+    <?php $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
+    $categories = $result->fetchAll(PDO::FETCH_ASSOC);?>
+    <div class="flex justify-center block bg-gray-100">
+    <!--Row avec les boutons de tri------------>          
+        <h2>Selectionnez une catégorie</h2>
+        <form action="" method="GET">
+            <select name="filtreCategorie" value="filtreCategorie"> 
+            <?php foreach ($categories as $categorie) { ?>            
+                <option class="font-normal" ><?= $categorie['nom_cat'] ?></option>
+            <?php 
+            } 
+            ?>                
+            </select>
+            <button type="submit">Filtrer</button>  
+        </form>
+                 
+    </div>
+    <section id="favoris" class="flex justify-center">      
+        <table class="table_favori m-10 border border-gray-300 shadow-lg">            
             <!--Titres du tablau----------------------->
             <tr class="text-center text-blue-800 bg-gray-200 ">
                 <th>id favori</th>
