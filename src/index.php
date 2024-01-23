@@ -13,32 +13,69 @@
 </head>
 <body class="bg-">
     <!---Cherche le fichier header, pour lisibilité---->
-    <?php include("header.php"); ?>
-    <!----Cherche le fichier qui questionne la base de données------>
-    <?php include("pdo.php"); ?>
-    <!--Affichage (SELECT) :-->
-    <?php $result = $pdo->query("SELECT * FROM favoris /*WHERE prenom='julien'*/");
-    $favoris = $result->fetchAll(PDO::FETCH_ASSOC);?>
-    <!--Requête par categorie-->   
-    <?php $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
-    $categories = $result->fetchAll(PDO::FETCH_ASSOC);?>
+    <?php 
+    
+    include("header.php");
+    include("pdo.php");
 
+    
+    $requeteSQL="";
+    echo $_GET['filtreDomaine'];
+    var_dump(isset($_GET['filtreCategorie']));
+    if (isset($_GET['filtreCategorie'])) {
+        $requeteSQL = "SELECT * FROM favoris 
+        INNER JOIN cat_fav ON favoris.id_favori = cat_fav.id_favori 
+        INNER JOIN categorie ON categorie.id_categorie = cat_fav.id_categorie
+        WHERE categorie.id_categorie = " . $_GET['filtreCategorie'];
+    } else { 
+        $requeteSQL= "SELECT * FROM favoris";
+    };
+    var_dump($requeteSQL);
+
+   $result = $pdo->query($requeteSQL);
+    $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+    
+    
+
+   /* $categories = $result->fetchAll(PDO::FETCH_ASSOC);*/
+
+?>
 
 
     <!--Requête par domaine-->   
-    <?php $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
-    $categories = $result->fetchAll(PDO::FETCH_ASSOC);?>
+    <?php 
+    
+        $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
+        $categories = $result->fetchAll(PDO::FETCH_ASSOC);
+        $result = $pdo->query("SELECT * FROM domaine /*WHERE prenom='julien'*/");
+        $domaines = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    ?>
+
     <div class="flex justify-center block bg-gray-100">
     <!--Row avec les boutons de tri------------>          
         <h2>Selectionnez une catégorie</h2>
         <form action="" method="GET">
-            <select name="filtreCategorie" value="filtreCategorie"> 
+            <select name="filtreCategorie" > 
             <?php foreach ($categories as $categorie) { ?>            
-                <option class="font-normal" ><?= $categorie['nom_cat'] ?></option>
+                <option class="font-normal" value="<?php echo $categorie['id_categorie']?>"><?= $categorie['nom_cat'] ?></option>
             <?php 
             } 
             ?>                
             </select>
+            <!-----------Tri par domaine---------------------------->
+            <h2>Selectionnez un domaine</h2>
+            <select name="filtreDomaine" > 
+            <?php foreach ($domaines as $domaine) { ?>            
+                <option class="font-normal" value="<?php echo $domaine['id_domaine']?>"><?= $domaine['nom_domaine'] ?></option>
+            <?php 
+            } 
+            ?>                
+            </select>
+
+
+
+
             <button type="submit">Filtrer</button>  
         </form>
                  
