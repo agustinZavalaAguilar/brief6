@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +9,19 @@
     <!-----------font Roboto--------------->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 </head>
-<body class="bg-">
-    <!---Cherche le fichier header, pour lisibilité---->
-    <?php 
-    
-    include("header.php");
-    include("pdo.php");
 
-    
+<body class="">
+    <?php 
+    /*Pour lisibilité, le header a été placé dans un autre fichier et "include" le recupère*/
+    include("header.php");
+    /*PDO se connecte à la base de donées */
+    include("pdo.php");
+    /* La requête SQL effectue le trie propose sur le DOM. Je l'ai générée sur phpMyAdmin pour confort 
+    et pour la tester avant de l'implementer sur l'index*/
     $requeteSQL="";
-    echo $_GET['filtreDomaine'];
-    var_dump(isset($_GET['filtreCategorie']));
-    if (isset($_GET['filtreCategorie'])) {
+    /*echo $_GET['filtreDomaine'];
+    var_dump(isset($_GET['filtreCategorie']));*/
+    if (isset($_GET['filtreCategorie'])) { //isset verifie qu'il y ait un valeur attribué à $_GET['filtreCategorie']
         $requeteSQL = "SELECT * FROM favoris 
         INNER JOIN cat_fav ON favoris.id_favori = cat_fav.id_favori 
         INNER JOIN categorie ON categorie.id_categorie = cat_fav.id_categorie
@@ -32,60 +31,58 @@
     } else { 
         $requeteSQL= "SELECT * FROM favoris";
     };
-    var_dump($requeteSQL);
+    /*var_dump($requeteSQL);*/
 
-   $result = $pdo->query($requeteSQL);
+    $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
-    
-    
 
    /* $categories = $result->fetchAll(PDO::FETCH_ASSOC);*/
 
-?>
+    ?>
 
-
-    <!--Requête par domaine-->   
+    <!--Requête par domaine------------------------------------------------------------------------------------->   
     <?php 
     
         $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
         $categories = $result->fetchAll(PDO::FETCH_ASSOC);
         $result = $pdo->query("SELECT * FROM domaine /*WHERE prenom='julien'*/");
         $domaines = $result->fetchAll(PDO::FETCH_ASSOC);
-
     ?>
 
     <div class="flex justify-center block bg-gray-100">
     <!--Row avec les boutons de tri------------>          
-        <h2>Selectionnez une catégorie</h2>
-        <form action="" method="GET">
-            <select name="filtreCategorie" > 
-            <?php foreach ($categories as $categorie) { ?>            
-                <option class="font-normal" value="<?php echo $categorie['id_categorie']?>"><?= $categorie['nom_cat'] ?></option>
-            <?php 
-            } 
-            ?>                
-            </select>
+        
+        <form class="flex flex-row items-center" action="" method="GET">
+            <div class="flex flex-col p-10 m-10">
+                <h2>Selectionnez une catégorie</h2>             
+                <select name="filtreCategorie" > 
+                <?php foreach ($categories as $categorie) { ?>            
+                    <option class="font-normal" value="<?php echo $categorie['id_categorie']?>"><?= $categorie['nom_cat'] ?></option>
+                <?php 
+                } 
+                ?>                
+                </select>
+            </div>
             <!-----------Tri par domaine---------------------------->
-            <h2>Selectionnez un domaine</h2>
-            <select name="filtreDomaine" > 
-            <?php foreach ($domaines as $domaine) { ?>            
-                <option class="font-normal" value="<?php echo $domaine['id_domaine']?>"><?= $domaine['nom_domaine'] ?></option>
-            <?php 
-            } 
-            ?>                
-            </select>
-
-
-
-
-            <button type="submit">Filtrer</button>  
-        </form>
-                 
+            <div class="flex flex-col p-10 m-10">
+                <h2>Selectionnez un domaine</h2>
+            
+                <select name="filtreDomaine" > 
+                <?php foreach ($domaines as $domaine) { ?>            
+                    <option class="font-normal" value="<?php echo $domaine['id_domaine']?>"><?= $domaine['nom_domaine'] ?></option>
+                <?php 
+                } 
+                ?>                
+                </select><br>
+            </div>
+            <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" type="submit">Filtrer</button>  
+        </form>          
     </div>
+
     <section id="favoris" class="flex justify-center">      
         <table class="table_favori m-10 border border-gray-300 shadow-lg">            
             <!--Titres du tablau----------------------->
-            <tr class="text-center text-blue-800 bg-gray-200 ">
+            <tr class="text-center text-blue-800 bg-gray-200 w-100">
                 <th>id favori</th>
                 <th class="text-center text-blue-800">Libellé</th>
                 <th>date creation</th>
