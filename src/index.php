@@ -26,7 +26,9 @@
         $requeteSQL = "SELECT * FROM favoris 
         INNER JOIN cat_fav ON favoris.id_favori = cat_fav.id_favori 
         INNER JOIN categorie ON categorie.id_categorie = cat_fav.id_categorie
-        WHERE categorie.id_categorie = " . $_GET['filtreCategorie'];
+        INNER JOIN domaine on domaine.id_domaine = favoris.id_domaine
+        WHERE categorie.id_categorie = " . $_GET['filtreCategorie'] .
+        " AND domaine.id_domaine = " . $_GET['filtreDomaine'];
     } else { 
         $requeteSQL= "SELECT * FROM favoris";
     };
