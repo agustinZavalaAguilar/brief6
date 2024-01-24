@@ -21,7 +21,10 @@
     $requeteSQL="";
     /*echo $_GET['filtreDomaine'];
     var_dump(isset($_GET['filtreCategorie']));*/
-    if (isset($_GET['filtreCategorie'])) { //isset verifie qu'il y ait un valeur attribué à $_GET['filtreCategorie']
+
+    //Ci-dessous ma requête qui permettra d'effectuer le tri:-----------------------------------------------------
+
+    if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à $_GET['filtreCategorie']*/
         $requeteSQL = "SELECT * FROM favoris 
         INNER JOIN cat_fav ON favoris.id_favori = cat_fav.id_favori 
         INNER JOIN categorie ON categorie.id_categorie = cat_fav.id_categorie
@@ -32,7 +35,7 @@
         $requeteSQL= "SELECT * FROM favoris";
     };
     /*var_dump($requeteSQL);*/
-
+    var_dump($_GET);
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,9 +46,9 @@
     <!--Requête par domaine------------------------------------------------------------------------------------->   
     <?php 
     
-        $result = $pdo->query("SELECT * FROM categorie /*WHERE prenom='julien'*/");
+        $result = $pdo->query("SELECT * FROM categorie");
         $categories = $result->fetchAll(PDO::FETCH_ASSOC);
-        $result = $pdo->query("SELECT * FROM domaine /*WHERE prenom='julien'*/");
+        $result = $pdo->query("SELECT * FROM domaine");
         $domaines = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
@@ -55,9 +58,14 @@
         <form class="flex flex-row items-center" action="" method="GET">
             <div class="flex flex-col p-10 m-10">
                 <h2>Selectionnez une catégorie</h2>             
-                <select name="filtreCategorie" > 
+                <select name="filtreCategorie" >
+                    
+                <option value="">-- toutes --</option>
+    
                 <?php foreach ($categories as $categorie) { ?>            
-                    <option class="font-normal" value="<?php echo $categorie['id_categorie']?>"><?= $categorie['nom_cat'] ?></option>
+                    <option class="font-normal" value="<?php echo $categorie['id_categorie']?>">
+                        <?= $categorie['nom_cat'] ?>
+                    </option>
                 <?php 
                 } 
                 ?>                
@@ -75,7 +83,8 @@
                 ?>                
                 </select><br>
             </div>
-            <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" type="submit">Filtrer</button>  
+            <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
+                type="submit">Filtrer</button>  
         </form>          
     </div>
 
