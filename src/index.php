@@ -23,18 +23,21 @@
     var_dump(isset($_GET['filtreCategorie']));*/
 
     //Ci-dessous ma requête qui permettra d'effectuer le tri:-----------------------------------------------------
-
-    if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à $_GET['filtreCategorie']*/
-        $requeteSQL = "SELECT * FROM favoris 
-        INNER JOIN cat_fav ON favoris.id_favori = cat_fav.id_favori 
-        INNER JOIN categorie ON categorie.id_categorie = cat_fav.id_categorie
-        INNER JOIN domaine on domaine.id_domaine = favoris.id_domaine
-        WHERE categorie.id_categorie = " . $_GET['filtreCategorie'] .
-        " AND domaine.id_domaine = " . $_GET['filtreDomaine'];
-    } else { 
-        $requeteSQL= "SELECT * FROM favoris";
+    $requeteSQL = "SELECT * FROM favoris 
+        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+        WHERE 1=1";
+    if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
+        $_GET['filtreCategorie']*/
+        $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'];
+    } 
+       
+    if (!empty($_GET['filtreDomaine'])) { /* !empty verifie qu'il y ait un valeur attribué à 
+            $_GET['filtreCategorie']*/
+        $requeteSQL .= " AND domaine.id_domaine         = " . $_GET['filtreDomaine']; 
     };
-    /*var_dump($requeteSQL);*/
+    var_dump($requeteSQL);
     /*var_dump($_GET);*/
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -50,6 +53,8 @@
         $categories = $result->fetchAll(PDO::FETCH_ASSOC);
         $result = $pdo->query("SELECT * FROM domaine");
         $domaines = $result->fetchAll(PDO::FETCH_ASSOC);
+        $result = $pdo->query("SELECT * FROM domaine");
+        $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <!----------Options de tri et recherche----------------------------->
     <div class="flex justify-center block bg-gray-100">    
@@ -92,7 +97,8 @@
     <!--------------------recherche textuelle---------------------------------->
     <div class="flex justify-center block bg-gray-100 h-10 ">
         <form>
-            <input class="rounded  ml-20" type="search" name="search" placeholder="Écris ici ta recherche">
+            <label for="filtreTextuel">Barre de recherche</label>
+            <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
         </form>         
     </div>
 
