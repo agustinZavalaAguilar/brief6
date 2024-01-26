@@ -23,16 +23,39 @@
     var_dump(isset($_GET['filtreCategorie']));*/
 
     //Ci-dessous ma requête qui permettra d'effectuer le tri:-----------------------------------------------------
-    $requeteSQL = "SELECT  *,GROUP_CONCAT(categorie.nom_cat) FROM favoris 
+    
+   /* Je declare ces deux variables pour construire ma requette:
+   le syntaxe SQL oblige à placer le GROUP BY à la fin de la requêtte, ce qui difficulte le
+   cumul des conditions*/ 
+    $groupConcat = ""; 
+    $groupBy = "";
+
+    $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
+    INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+    INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+    INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+    WHERE 1=1 " . 
+    $groupBy;
+
+    if (empty($_GET['filtreCategorie']) && empty($_GET['filtreDomaine']) && empty($_GET['filtreTextuel'])) { 
+        
+        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+        $groupBy = "GROUP BY favoris.id_favori;";
+        
+        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
         INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
         INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
         INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-        WHERE 1=1        
-        GROUP BY favoris.id_favori;";
+        WHERE 1=1 " . 
+        $groupBy;
+        var_dump($requeteSQL);   
+    }     
     
     if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
         $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'];
+        var_dump($requeteSQL);
+        
     } 
        
     if (!empty($_GET['filtreDomaine'])) { /* !empty verifie qu'il y ait un valeur attribué à 
@@ -44,10 +67,10 @@
         $_GET['filtreTextuel']*/
     $requeteSQL .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'"; 
     }
-    
+        
     ;
-    /*var_dump($requeteSQL);
-    var_dump($_GET['filtreTextuel']);*/
+    
+    /*var_dump($_GET['filtreTextuel']);*/
 
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -72,7 +95,7 @@
         $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <!----------Options de tri et recherche----------------------------->
-    <div class="flex justify-center block bg-gray-100">    
+    <div class="flex justify-center block bg-gray-100 m-5" >    
         <form class="flex flex-row items-center" action="" method="GET">
             <!--Options de tri par categorie --------------------------> 
             <div class="flex flex-col p-10 m-10">
@@ -103,6 +126,12 @@
                 } 
                 ?>                
                 </select><br>
+                <div class="flex justify-center block bg-gray-100 h-10 m-5 items-center">
+        
+            <label for="filtreTextuel">Barre de recherche</label>
+            <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
+   
+    </div>
             </div>
             <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
                 type="submit">Filtrer</button>  
@@ -110,12 +139,7 @@
                  
     </div>
     <!--------------------recherche textuelle---------------------------------->
-    <div class="flex justify-center block bg-gray-100 h-10 ">
-        <form>
-            <label for="filtreTextuel">Barre de recherche</label>
-            <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
-        </form>         
-    </div>
+    
 
     <section id="favoris" class="flex justify-center">      
         <table class="table_favori m-10 border border-gray-300 shadow-lg">            
@@ -125,7 +149,7 @@
                 <th class="text-center text-blue-800">Libellé</th>
                 <th>date creation</th>
                 <th>url</th>
-                <th>Id domaine</th>
+                <th>nom categorie</th>
                 <th>Actions</th>
             </tr>
             <!---Registres generés en dynamique---->
@@ -135,8 +159,9 @@
                 <th class="font-normal text-left" ><?= $favori['libelle'] ?></th>
                 <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
                 <th class="font-normal text-left w-40" ><?= $favori['url'] ?></th>
-                <th class="font-normal" ><?= $favori['id_domaine'] ?></th>
+                <th class="font-normal" ><?= $favori['nom_cat'] ?></th>
                 <th>
+                    <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
                     <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
                     <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                 </th>
