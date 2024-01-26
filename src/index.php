@@ -23,11 +23,13 @@
     var_dump(isset($_GET['filtreCategorie']));*/
 
     //Ci-dessous ma requête qui permettra d'effectuer le tri:-----------------------------------------------------
-    $requeteSQL = "SELECT * FROM favoris 
+    $requeteSQL = "SELECT  *,GROUP_CONCAT(categorie.nom_cat) FROM favoris 
         INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
         INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
         INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-        WHERE 1=1";
+        WHERE 1=1        
+        GROUP BY favoris.id_favori;";
+    
     if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
         $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'];
@@ -36,11 +38,24 @@
     if (!empty($_GET['filtreDomaine'])) { /* !empty verifie qu'il y ait un valeur attribué à 
             $_GET['filtreCategorie']*/
         $requeteSQL .= " AND domaine.id_domaine         = " . $_GET['filtreDomaine']; 
-    };
-    var_dump($requeteSQL);
-    /*var_dump($_GET);*/
+    }
+    
+    if (!empty($_GET['filtreTextuel'])) { /* !empty verifie qu'il y ait un valeur attribué à 
+        $_GET['filtreTextuel']*/
+    $requeteSQL .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'"; 
+    }
+    
+    ;
+    /*var_dump($requeteSQL);
+    var_dump($_GET['filtreTextuel']);*/
+
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    /*echo '<pre>';
+    var_dump($favoris);
+    echo '</pre>';*/
+    
 
    /* $categories = $result->fetchAll(PDO::FETCH_ASSOC);*/
 
@@ -113,7 +128,7 @@
                 <th>Id domaine</th>
                 <th>Actions</th>
             </tr>
-            <!---Ligne exemple---->
+            <!---Registres generés en dynamique---->
             <?php foreach ($favoris as $favori) { ?>
             <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal border border-gray-200 mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
