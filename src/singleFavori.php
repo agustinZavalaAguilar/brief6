@@ -1,0 +1,47 @@
+<?php
+include("header.php");
+include("pdo.php");
+
+$groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+$groupBy = "GROUP BY favoris.id_favori;";
+
+$requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
+INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+WHERE favoris.id_favori =" . $_GET['id_favori']; 
+$groupBy;
+
+$result = $pdo->query($requeteSQL);
+$favoris = $result->fetch(PDO::FETCH_ASSOC);
+    
+    
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <title>Single Favori</title>
+</head>
+<body>
+
+    <section >
+        <div class=" w-max  flex justify-center text-center text-blue-800 bg-gray-200 w-100 ">
+            <h1>Libelle du favoris</h1>
+        </div>
+        <div class="flex justify-center  ">
+            <ul class="bg-gray-100">
+                <li> Libellé: <?php echo $favoris['libelle'] ?></li>
+                <li>attibut 2</li>
+                <li>attribut 3</li>
+                <li>attribut 4</li>
+            </ul>
+
+        </div>
+    </section>
+
+</body>
+</html>

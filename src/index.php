@@ -126,19 +126,22 @@
                 } 
                 ?>                
                 </select><br>
+
+                 <!--------------------recherche textuelle---------------------------------->
                 <div class="flex justify-center block bg-gray-100 h-10 m-5 items-center">
-        
-            <label for="filtreTextuel">Barre de recherche</label>
-            <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
-   
-    </div>
+                    <label for="filtreTextuel">Barre de recherche</label>
+                    <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
+                </div>
+
             </div>
+                <!----------------------Bouton filtrer-------------------------------------->
             <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
-                type="submit">Filtrer</button>  
+                type="submit">Filtrer
+            </button>  
         </form>
                  
     </div>
-    <!--------------------recherche textuelle---------------------------------->
+    
     
 
     <section id="favoris" class="flex justify-center">      
@@ -161,9 +164,14 @@
                 <th class="font-normal text-left w-40" ><?= $favori['url'] ?></th>
                 <th class="font-normal" ><?= $favori['nom_cat'] ?></th>
                 <th>
-                    <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
-                    <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
-                    <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
+                    <form action="singleFavori.php" method="get">
+                        <button name="id_favori" value="<?php echo $favori['id_favori']?>">
+                            <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
+                        </button>
+                    </form>
+                        <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
+                        <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
+                   
                 </th>
             </tr>
             <?php 
