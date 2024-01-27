@@ -95,7 +95,7 @@
         $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <!----------Options de tri et recherche----------------------------->
-    <div class="flex justify-center block bg-gray-100 m-5" >    
+    <div class="flex justify-center bg-gray-100 m-5" >    
         <form class="flex flex-row items-center" action="" method="GET">
             <!--Options de tri par categorie --------------------------> 
             <div class="flex flex-col p-10 m-10">
@@ -128,7 +128,7 @@
                 </select><br>
 
                  <!--------------------recherche textuelle---------------------------------->
-                <div class="flex justify-center block bg-gray-100 h-10 m-5 items-center">
+                <div class="flex justify-center bg-gray-100 h-10 m-5 items-center">
                     <label for="filtreTextuel">Barre de recherche</label>
                     <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
                 </div>
@@ -157,7 +157,7 @@
             </tr>
             <!---Registres generés en dynamique---->
             <?php foreach ($favoris as $favori) { ?>
-            <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal border border-gray-200 mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
+            <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
                 <th class="font-normal text-left" ><?= $favori['libelle'] ?></th>
                 <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
