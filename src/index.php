@@ -96,9 +96,12 @@
     ?>
     <!----------Options de tri et recherche----------------------------->
     <div class="flex justify-center bg-gray-100 m-5" >    
-        <form class="flex flex-row items-center" action="" method="GET">
+        <form class="w-full overflow-x-hidden flex flex-row items-center
+                     sm:block" 
+                    action="" method="GET">
             <!--Options de tri par categorie --------------------------> 
-            <div class="flex flex-col p-10 m-10">
+            <div class="flex flex-col p-10 m-10
+                        sm:flex-row">
                 <h2>Selectionnez une catégorie</h2>             
                 <select name="filtreCategorie" >
                     
@@ -137,7 +140,13 @@
                 <!----------------------Bouton filtrer-------------------------------------->
             <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
                 type="submit">Filtrer
-            </button>  
+            </button>
+            <a href="index.php"> 
+                <button class=" bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 m-14 border p-4
+                            border-gray-300 shadow-lg 
+                            fas fa-eraser">
+                </button> 
+            </a>  
         </form>
                  
     </div>
