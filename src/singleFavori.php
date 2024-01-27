@@ -34,10 +34,12 @@ $favoris = $result->fetch(PDO::FETCH_ASSOC);
         </div>
         <div class="flex justify-center  ">
             <ul class="bg-gray-100">
-                <li> Libellé: <?php echo $favoris['libelle'] ?></li>
-                <li>attibut 2</li>
-                <li>attribut 3</li>
-                <li>attribut 4</li>
+                <li>Libellé: <?php echo $favoris['libelle'] ?></li>
+                <li>Date de création: <?php echo $favoris['date_creation'] ?></li>
+                <li>URL: <a href="<?php echo $favoris['url'] ?>"> <?php echo $favoris['url'] ?></li>
+                <li>Catégorie: <?php echo $favoris['nom_cat'] ?></li>
+                <li>Domaine: <?php echo $favoris['nom_domaine'] ?></li>
+
             </ul>
 
         </div>
