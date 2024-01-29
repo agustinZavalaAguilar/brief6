@@ -5,5 +5,11 @@
                   sm:m-8">
                 Gestionnaire de favoris
         </h1>
-        <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg">+ favoris</button>
+        <form action="create.php" method="get">    
+                        <button name="create" class="font-bold bg-blue-400 hover:bg-blue-900
+                        text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg"
+                        >Ajouter
+                        </button>
+        </form>
+        
 </header>

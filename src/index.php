@@ -8,9 +8,11 @@
     <script src="https://kit.fontawesome.com/e14b518d69.js" crossorigin="anonymous"></script>
     <!-----------font Roboto--------------->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <script src="../js/script.js"></script>
 </head>
 
 <body class="">
+    
     <?php 
     /*Pour lisibilité, le header a été placé dans un autre fichier et "include" le recupère*/
     include("header.php");
@@ -181,10 +183,9 @@
                     </form>
                     <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
                     <!------------------------Envoie vers la page delete------------------------>
-                    <form action="delete.php" method="get">
-                        <button name="id_favori" value="<?php echo $favori['id_favori']?>">
+                    <a onclick="confirmDelete()" value="<?php echo $favori['id_favori']?>">
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
-                        </button>
+                    </a>
                     </form>
                 </th>
             </tr>
