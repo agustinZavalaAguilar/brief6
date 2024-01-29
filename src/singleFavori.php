@@ -26,15 +26,15 @@ $favoris = $result->fetch(PDO::FETCH_ASSOC);
     <script src="https://kit.fontawesome.com/e14b518d69.js" crossorigin="anonymous"></script>
     <title>Single Favori</title>
 </head>
+
 <body>
 
     <section >
-        <div class=" w-max  flex justify-center text-center text-blue-800 bg-gray-200 w-100 ">
-            <h1>Libelle du favoris</h1>
+        <div class="flex justify-center text-blue-800 bg-gray-200">
+            <h1></strong><?php echo $favoris['libelle'] ?></h1>
         </div>
         <div class="flex justify-center  ">
             <ul class="bg-gray-100">
-                <li><strong>Libellé: </strong><?php echo $favoris['libelle'] ?></li>
                 <li><strong>Date de création: </strong><?php echo $favoris['date_creation'] ?></li>
                 <li><strong>URL: </strong><a href="<?php echo $favoris['url'] ?>"> <?php echo $favoris['url'] ?></a></li>
                 <li><strong>Catégorie: </strong><?php echo $favoris['nom_cat'] ?></li>

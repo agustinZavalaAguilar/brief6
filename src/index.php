@@ -173,14 +173,19 @@
                 <th class="font-normal text-left w-40" ><?= $favori['url'] ?></th>
                 <th class="font-normal" ><?= $favori['nom_cat'] ?></th>
                 <th>
+                    <!------------------------Envoie vers la page individuelle------------------->
                     <form action="singleFavori.php" method="get">
                         <button name="id_favori" value="<?php echo $favori['id_favori']?>">
                             <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
                         </button>
                     </form>
-                        <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
+                    <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
+                    <!------------------------Envoie vers la page delete------------------------>
+                    <form action="delete.php" method="get">
+                        <button name="id_favori" value="<?php echo $favori['id_favori']?>">
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
-                   
+                        </button>
+                    </form>
                 </th>
             </tr>
             <?php 
