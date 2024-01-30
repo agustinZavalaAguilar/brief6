@@ -32,18 +32,18 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
                       VALUES ('" . $_POST['libelle'] . "','" . $dateCreation . "', '" . $_POST['url'] . "', '" . $_POST['domaine'] . "');";
 
     $pdo->query($createRequest);
-    $lastInsertedfavoriId = $pdo->lastInsertId();
-    echo $lastInsertedfavoriId;
-    
-    
+
     /*Récupère le dernier id favoris crée afin d'alimenter la table cat_fav------------------*/
-    
+    $lastInsertedfavoriId = $pdo->lastInsertId();
+    //echo $lastInsertedfavoriId; 
 
     /*Alimentation de la table cat_fav---------------------------------------------------*/
-    /*$createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
-                      VALUES ('1','" . $_POST['categorie'][0] . "');";*/
-
-    
+    foreach ($favoris as $favori) {
+        $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
+        VALUES ('1','" . $_POST['categorie'][0] . "');"; 
+        $pdo->query($createRequest);
+        //Il y a juste à remplacer les valeurs par des variables et tester si ça marche
+    }
 
 
 } else {
