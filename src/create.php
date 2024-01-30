@@ -7,6 +7,10 @@ $domaines = $result->fetchAll(PDO::FETCH_ASSOC);
 /* Récupérer le tableau des catégories pour affichage dynamique en cases à cocher: ----*/
 $result = $pdo->query("SELECT * FROM categorie");
 $categories = $result->fetchAll(PDO::FETCH_ASSOC);
+/* Récupérer le tableau cat_fav afin de l'alimenter lors de la création d'une catégorie: -*/
+$result = $pdo->query("SELECT * FROM cat_fav");
+$cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
+
 /*
 echo 'libelle : ' . $_POST['libelle'] . '<br>';
 echo 'url : ' . $_POST['url'] . '<br>';
@@ -15,18 +19,32 @@ echo 'categorie(s) : ' . $_POST['categorie'] . '<br>';
 */
 /*-------------------Timestamp--------------------------------------------------*/
 $dateCreation = date("Y-m-d");
-echo $dateCreation;
+
 
 
 /*verification formulaire renseigné-----------------------------------------------------*/
 if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
-    echo ('all fields have been validated!');
+    echo ('all fields have been validated!');   
+    //print_r ($_POST['categorie'][0]); 
     
-/*Préparation de la requête-------------------------------------------------------------*/      
+    /*Alimentation de la table favoris-------------------------------------------------------*/      
     $createRequest = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
                       VALUES ('" . $_POST['libelle'] . "','" . $dateCreation . "', '" . $_POST['url'] . "', '" . $_POST['domaine'] . "');";
-    var_dump($createRequest);
+
     $pdo->query($createRequest);
+    $lastInsertedfavoriId = $pdo->lastInsertId();
+    echo $lastInsertedfavoriId;
+    
+    
+    /*Récupère le dernier id favoris crée afin d'alimenter la table cat_fav------------------*/
+    
+
+    /*Alimentation de la table cat_fav---------------------------------------------------*/
+    /*$createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
+                      VALUES ('1','" . $_POST['categorie'][0] . "');";*/
+
+    
+
 
 } else {
     echo ('Keep on filling those fields!');
@@ -38,9 +56,7 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
 ?>
 <!-----------------------------------HTLM------------------------------------------------------->
 
-<!--<pre>
-    <?//php print_r($_POST); ?>
-</pre>-->
+
 
 <!DOCTYPE html>
 <html lang="en">
