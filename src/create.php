@@ -11,12 +11,27 @@ $categories = $result->fetchAll(PDO::FETCH_ASSOC);
 echo 'libelle : ' . $_POST['libelle'] . '<br>';
 echo 'url : ' . $_POST['url'] . '<br>';
 echo 'domaine : ' . $_POST['domaine'] . '<br>';
-echo 'catégorie : ' . $_POST['categorie'] . '<br>';
-echo 'Date de création : ' . $_POST['date'] . '<br>';
+echo 'categorie(s) : ' . $_POST['categorie'] . '<br>';
 */
+
+
+
+/*verification formulaire renseigné-----------------------------------------------------*/
+if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
+    echo ('all fields have been validated!');
+} else {
+    echo ('Keep on filling those fields!');
+}
+
+;
+
 
 ?>
 <!-----------------------------------HTLM------------------------------------------------------->
+
+<!--<pre>
+    <?//php print_r($_POST); ?>
+</pre>-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +59,7 @@ echo 'Date de création : ' . $_POST['date'] . '<br>';
 
                 <!--menu déroulant dynamique pour le choix de domaine: -------------------------------->
                 <label for="domaine">Domaine: </label>
-                <select name="filtreDomaine" > 
+                <select name="domaine" > 
                     <option value="">-- Chosir un domaine --</option>
                     <?php foreach ($domaines as $domaine) { ?>            
                         <option class="font-normal" value="<?php echo $domaine['id_domaine']?>">
@@ -56,12 +71,14 @@ echo 'Date de création : ' . $_POST['date'] . '<br>';
                 </select><br><br>
 
                 <!--cases à cocher pour le choix de catégorie(s): -------------------------------->
-                <fieldset>
+                <fieldset >
                     <legend>Attribuer une ou plusieurs catégories:</legend>
 
-                    <?php foreach ($categories as $categorie) { ?>            
-                        <div>
-                            <input type="checkbox" id="categorie" name="categorie" value="<?php echo $categorie['id_categorie']?>"/>
+                    <?php                        
+                        foreach ($categories as $categorie) { 
+                    ?>            
+                        <div >
+                            <input type="checkbox" id="categorie" name="categorie[]" value="<?php echo $categorie['id_categorie']?>"/>
                             <label for="categorie">
                                     <?= $categorie['nom_cat'] ?>
                             </label>
@@ -70,7 +87,7 @@ echo 'Date de création : ' . $_POST['date'] . '<br>';
                     } 
                     ?>                      
                 </fieldset><br><br>
-                
+                <!-------------------Boutton submit---------------------------------------------->
                 <button class="font-bold bg-blue-400 hover:bg-blue-900
                         text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg"
                         type="submit">Submit</button>
