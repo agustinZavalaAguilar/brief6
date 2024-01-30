@@ -13,12 +13,21 @@ echo 'url : ' . $_POST['url'] . '<br>';
 echo 'domaine : ' . $_POST['domaine'] . '<br>';
 echo 'categorie(s) : ' . $_POST['categorie'] . '<br>';
 */
-
+/*-------------------Timestamp--------------------------------------------------*/
+$dateCreation = date("Y-m-d");
+echo $dateCreation;
 
 
 /*verification formulaire renseigné-----------------------------------------------------*/
 if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
     echo ('all fields have been validated!');
+    
+/*Préparation de la requête-------------------------------------------------------------*/      
+    $createRequest = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
+                      VALUES ('" . $_POST['libelle'] . "','" . $dateCreation . "', '" . $_POST['url'] . "', '" . $_POST['domaine'] . "');";
+    var_dump($createRequest);
+    $pdo->query($createRequest);
+
 } else {
     echo ('Keep on filling those fields!');
 }
@@ -87,6 +96,7 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
                     } 
                     ?>                      
                 </fieldset><br><br>
+                
                 <!-------------------Boutton submit---------------------------------------------->
                 <button class="font-bold bg-blue-400 hover:bg-blue-900
                         text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg"
@@ -105,10 +115,5 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
 
 <!------------------------------------requête php---------------------------->
 <?php 
-/*
-$createRequest = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
-                VALUES (" . $_POST['libelle'] . ",2024-01-29, 'test', '1');";
-var_dump($createRequest);
-$pdo->query($createRequest);
-*/
+
 ?>
