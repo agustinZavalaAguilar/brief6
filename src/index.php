@@ -120,16 +120,17 @@
             </div>
             <!----Options de tri par domaine---------------------------->
             <div class="flex flex-col p-10 m-10">
+
                 <h2>Selectionnez un domaine</h2>            
                 <select name="filtreDomaine" > 
-
-                <option value="">-- toutes --</option>
-
-                <?php foreach ($domaines as $domaine) { ?>            
-                    <option class="font-normal" value="<?php echo $domaine['id_domaine']?>"><?= $domaine['nom_domaine'] ?></option>
-                <?php 
-                } 
-                ?>                
+                    <option value="">-- toutes --</option>
+                    <?php foreach ($domaines as $domaine) { ?>            
+                        <option class="font-normal" value="<?php echo $domaine['id_domaine']?>">
+                            <?= $domaine['nom_domaine'] ?>
+                        </option>
+                    <?php 
+                    } 
+                    ?>                
                 </select><br>
 
                  <!--------------------recherche textuelle---------------------------------->
