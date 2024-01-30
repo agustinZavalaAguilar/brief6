@@ -1,11 +1,12 @@
 <?php
 include("header.php");
 include("pdo.php");
-/* Récupérer le tableau des catégories pour affichage dynamique en menu déroulant: ----*/
+/* Récupérer le tableau des domaines pour affichage dynamique en menu déroulant: ----*/
 $result = $pdo->query("SELECT * FROM domaine");
 $domaines = $result->fetchAll(PDO::FETCH_ASSOC);
-
-
+/* Récupérer le tableau des catégories pour affichage dynamique en cases à cocher: ----*/
+$result = $pdo->query("SELECT * FROM categorie");
+$categories = $result->fetchAll(PDO::FETCH_ASSOC);
 /*
 echo 'libelle : ' . $_POST['libelle'] . '<br>';
 echo 'url : ' . $_POST['url'] . '<br>';
@@ -40,7 +41,8 @@ echo 'Date de création : ' . $_POST['date'] . '<br>';
 
                 <label for="url">URL: </label>
                 <input type="text" name="url" id="url" placeholder="Saisir une URL"><br><br>
-                <!--menu déroulant dynamique pour le choix de domaine: -->
+
+                <!--menu déroulant dynamique pour le choix de domaine: -------------------------------->
                 <label for="domaine">Domaine: </label>
                 <select name="filtreDomaine" > 
                     <option value="">-- Chosir un domaine --</option>
@@ -53,9 +55,22 @@ echo 'Date de création : ' . $_POST['date'] . '<br>';
                     ?>                
                 </select><br><br>
 
-                <label for="categorie">Catégorie: </label>
-                <input type="text" name="categorie" id="categorie" placeholder="Choisir une une catégorie"><br><br>
+                <!--cases à cocher pour le choix de catégorie(s): -------------------------------->
+                <fieldset>
+                    <legend>Attribuer une ou plusieurs catégories:</legend>
 
+                    <?php foreach ($categories as $categorie) { ?>            
+                        <div>
+                            <input type="checkbox" id="categorie" name="categorie" value="<?php echo $categorie['id_categorie']?>"/>
+                            <label for="categorie">
+                                    <?= $categorie['nom_cat'] ?>
+                            </label>
+                        </div>   
+                    <?php 
+                    } 
+                    ?>                      
+                </fieldset><br><br>
+                
                 <button class="font-bold bg-blue-400 hover:bg-blue-900
                         text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg"
                         type="submit">Submit</button>
