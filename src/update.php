@@ -11,8 +11,8 @@ $categories = $result->fetchAll(PDO::FETCH_ASSOC);
 $result = $pdo->query("SELECT * FROM cat_fav");
 $cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
 
-var_dump($_GET['id_favori']);
 
+/* Récupèrer les information du favori à modifier------------------------------------------*/
 $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
 $groupBy = "GROUP BY favoris.id_favori;";
 
@@ -25,12 +25,21 @@ $groupBy;
 
 $result = $pdo->query($requeteSQL);
 $favoris = $result->fetch(PDO::FETCH_ASSOC);
-var_dump($favoris);
+/* Déclaration des variables afin de les afficher dans le formulaire-----------------------*/
+$libelleFav = $favoris['libelle'];
+$urlFav = $favoris['url'];
+//echo "url: " . $urlFav;
+
 ?>
 
 <!-----------------------------------HTLM------------------------------------------------------->
 <!DOCTYPE html>
 <html lang="en">
+
+<!--<pre>
+<?/*php var_dump($favoris);*/ ?>
+</pre>-->
+
 
 <head>
     <meta charset="UTF-8">
@@ -46,12 +55,14 @@ var_dump($favoris);
                   ">Ajout de favoris</h2>
         <div class="p-5 bg-gray-100 mx-auto max-w-screen-md">
             <form action="" method="post">
-
+                <!--Champs de texte pour libelle et url ---------------------------------------------->
                 <label for="libelle">Libellé: </label>
-                <input type="text" name="libelle" id="libelle" placeholder="Saisir le libellé"><br><br>
+                <input type="text" name="libelle" id="libelle" placeholder="Saisir le libellé"
+                       value="<?php echo $libelleFav ?>"><br><br>
 
                 <label for="url">URL: </label>
-                <input type="text" name="url" id="url" placeholder="Saisir une URL"><br><br>
+                <input type="text" name="url" id="url" placeholder="Saisir une URL"
+                       value="<?php echo $urlFav ?>"><br><br>
 
                 <!--menu déroulant dynamique pour le choix de domaine: -------------------------------->
                 <label for="domaine">Domaine: </label>
