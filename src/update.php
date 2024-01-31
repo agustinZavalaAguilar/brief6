@@ -13,7 +13,7 @@ $cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
 
 
 /* Récupèrer les information du favori à modifier------------------------------------------*/
-$groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+$groupConcat = ", GROUP_CONCAT(categorie.id_categorie)"; 
 $groupBy = "GROUP BY favoris.id_favori;";
 
 $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
@@ -28,7 +28,11 @@ $favoris = $result->fetch(PDO::FETCH_ASSOC);
 /* Déclaration des variables afin de les afficher dans le formulaire-----------------------*/
 $libelleFav = $favoris['libelle'];
 $urlFav = $favoris['url'];
-//echo "url: " . $urlFav;
+$domaineFav = $favoris['nom_domaine'];
+$categoryIdsString = $favoris['GROUP_CONCAT(categorie.id_categorie)'];
+$categoryIdArray = explode("," , $categoryIdsString);
+//$domaineCat = $favoris['
+echo "categories: " . $categoryIdsString;
 
 ?>
 
@@ -36,9 +40,9 @@ $urlFav = $favoris['url'];
 <!DOCTYPE html>
 <html lang="en">
 
-<!--<pre>
-<?/*php var_dump($favoris);*/ ?>
-</pre>-->
+<pre>
+<?php var_dump($categoryIdArray);?>
+</pre>
 
 
 <head>
@@ -68,8 +72,16 @@ $urlFav = $favoris['url'];
                 <label for="domaine">Domaine: </label>
                 <select name="domaine" > 
                     <option value="">-- Chosir un domaine --</option>
-                    <?php foreach ($domaines as $domaine) { ?>            
-                        <option class="font-normal" value="<?php echo $domaine['id_domaine']?>">
+                    <?php foreach ($domaines as $domaine) { 
+                        if ($domaine['nom_domaine'] == $domaineFav){
+
+                            $selection = "selected";
+                        }else{
+                            $selection = "";
+                        }
+                        
+                        ?>            
+                        <option  <?= $selection ?> class="font-normal" value="<?= $domaine['id_domaine']?>">
                             <?= $domaine['nom_domaine'] ?>
                         </option>
                     <?php 
@@ -82,10 +94,17 @@ $urlFav = $favoris['url'];
                     <legend>Attribuer une ou plusieurs catégories:</legend>
 
                     <?php                        
-                        foreach ($categories as $categorie) { 
+                        foreach ($categories as $categorie) {
+                            echo  $categoryIdsString."<br>";
+                            echo $categorie['id_categorie'];
+                            if(in_array( $categorie['id_categorie'], $categoryIdArray )== true){
+                                $selection = "checked";
+                              } else{
+                                $selection = "";
+                              }
                     ?>            
                         <div >
-                            <input type="checkbox" id="categorie" name="categorie[]" value="<?php echo $categorie['id_categorie']?>"/>
+                            <input type="checkbox" <?= $selection ?> id="categorie" name="categorie[]" value="<?php echo $categorie['id_categorie']?>"/>
                             <label for="categorie">
                                     <?= $categorie['nom_cat'] ?>
                             </label>
