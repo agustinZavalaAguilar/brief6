@@ -4,7 +4,7 @@
 function confirmDelete() {
     var result = confirm('are you sure you want to delete this file you poor fool?');
     
-        /*window.location.href = "../src/delete.php";*/
+        window.location.href = "../src/delete.php";
 
 }
 

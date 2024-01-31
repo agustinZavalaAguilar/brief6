@@ -11,77 +11,21 @@ $categories = $result->fetchAll(PDO::FETCH_ASSOC);
 $result = $pdo->query("SELECT * FROM cat_fav");
 $cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
 
-/*verification formulaire renseigné-----------------------------------------------------*/
-if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
-    echo ('all fields have been validated!')?>"<br>"<?php ;   
-    //print_r ($_POST['categorie'][0]); --> juste une verification
-   
-    $libelle = $_POST['libelle'];
-    $dateCreation = date("Y-m-d");
-    $url = $_POST['url'];
-    $idDomaine= $_POST['domaine'];
+var_dump($_GET['id_favori']);
 
-    $createRequestprepare = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
-                      VALUES (:libelle,:dateCreation,:url, :domaine);";
-    
-    $requetePrepare = $pdo->prepare($createRequestprepare);
-    
-    $parameterArray = array(
-        ':libelle'       => $libelle,
-        ':dateCreation'  => $dateCreation,
-        ':url'           => $url,
-        ':domaine'       => $idDomaine
-    );
-    
-    $requetePrepare->execute($parameterArray);
+$groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+$groupBy = "GROUP BY favoris.id_favori;";
 
-    $lastInsertedfavoriId = $pdo->lastInsertId();
+$requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
+INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+WHERE favoris.id_favori =" . $_GET['id_favori']; 
+$groupBy;
 
-      //echo 'je suis la categorie numéro: '. ;
-        $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
-        VALUES (:lastInsertedfavoriId,:categorie);";
-
-        $requetePrepare = $pdo->prepare($createRequest);
-    foreach ($_POST['categorie'] as $categorie) {
-  
-
-        $parameterArray = array(
-            ':lastInsertedfavoriId' => $lastInsertedfavoriId,
-            ':categorie' => $categorie
-        );
-        $requetePrepare->execute($parameterArray);
-
-    }
-
-
-
-
-
-
-    /*Alimentation de la table favoris-------------------------------------------------------*/      
-    /*$createRequest = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
-                      VALUES ('" . $_POST['libelle'] . "','" . $dateCreation . "', '" . $_POST['url'] . "', '" . $_POST['domaine'] . "');";
-
-    $pdo->query($createRequest); 
-
-    /*Récupère le dernier id favoris crée afin d'alimenter la table cat_fav------------------*/
-    /*$lastInsertedfavoriId = $pdo->lastInsertId();
-    echo $lastInsertedfavoriId?>"<br>"<?php ;
-    var_dump($_POST['categorie'])?>"<br>"<?php ;      
-
-    /*Alimentation de la table cat_fav---------------------------------------------------*/
-    /*foreach ($_POST['categorie'] as $categorie) {
-        //echo 'je suis la categorie numéro: '. ;
-        $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
-        VALUES ('" . $lastInsertedfavoriId . "','" . $categorie . "');";
-        $pdo->query($createRequest);  
-    }*/
-
-
-} else {
-    echo ('Keep on filling those fields!');
-}
-;
+$result = $pdo->query($requeteSQL);
+$favoris = $result->fetch(PDO::FETCH_ASSOC);
+var_dump($favoris);
 ?>
 
 <!-----------------------------------HTLM------------------------------------------------------->

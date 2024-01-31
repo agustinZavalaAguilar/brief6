@@ -182,9 +182,11 @@
                             <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
                         </button>
                     </form>
-                    <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
-                    <!------------------------Envoie vers la page delete------------------------>
-                    <a onclick="confirmDelete()" value="<?php echo $favori['id_favori']?>">
+                    <a href="update.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
+                        <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
+                    </a>                   
+                    <!------------------------Envoie vers la page delete-------------------onclick="delete"----->
+                    <a href="delete.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                     </a>
                     </form>
