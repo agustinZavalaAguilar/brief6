@@ -32,7 +32,46 @@ $domaineFav = $favoris['nom_domaine'];
 $categoryIdsString = $favoris['GROUP_CONCAT(categorie.id_categorie)'];
 $categoryIdArray = explode("," , $categoryIdsString);
 //$domaineCat = $favoris['
-echo "categories: " . $categoryIdsString;
+//echo "categories: " . $categoryIdsString;
+
+/*Construction de la requête:-------------------------------------------------------------------*/
+
+/* Étape 1=> validation des données:------------------------------------*/
+if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
+    echo ('all fields have been validated!')?>"<br>"<?php ;
+
+/* Étape 2=> Construction et preparation de la première requêtte:MAJ de table favoris--*/
+    $libelle = $_POST['libelle'];
+    $url = $_POST['url'];
+    $idDomaine = $_POST['domaine'];
+    $idFavori = $_GET['id_favori'];
+    var_dump($libelle);
+    var_dump($url);
+    var_dump($idDomaine);
+    var_dump($idFavori);
+
+    $updateRequestPrepare = "UPDATE favoris SET 
+                      libelle    = :libelle, 
+                      url        = :url, 
+                      id_domaine = :idDomaine 
+                      WHERE id_favori = :idFavori;";
+    var_dump($updateRequestPrepare);
+
+    $requetePrepare = $pdo->prepare($updateRequestPrepare);                  
+    
+    $parameterArray = array(
+        ':libelle'   => $libelle,
+        ':url'       => $url,
+        ':idDomaine' => $idDomaine,
+        ':idFavori'  => $idFavori
+    );
+
+    $requetePrepare->execute($parameterArray);   
+    
+
+} else {
+    echo ('Keep on filling those fields!');
+}
 
 ?>
 
@@ -41,7 +80,7 @@ echo "categories: " . $categoryIdsString;
 <html lang="en">
 
 <pre>
-<?php var_dump($categoryIdArray);?>
+<?php var_dump($_POST);?>
 </pre>
 
 
@@ -95,8 +134,7 @@ echo "categories: " . $categoryIdsString;
 
                     <?php                        
                         foreach ($categories as $categorie) {
-                            echo  $categoryIdsString."<br>";
-                            echo $categorie['id_categorie'];
+                            //echo $categorie['id_categorie'];
                             if(in_array( $categorie['id_categorie'], $categoryIdArray )== true){
                                 $selection = "checked";
                               } else{
