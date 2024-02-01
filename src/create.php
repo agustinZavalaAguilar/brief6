@@ -15,7 +15,8 @@ $cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
 if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
     echo ('all fields have been validated!')?>"<br>"<?php ;   
     //print_r ($_POST['categorie'][0]); --> juste une verification
-   
+
+    /*Alimentation de la table favoris---------------------------------------------------*/
     $libelle = $_POST['libelle'];
     $dateCreation = date("Y-m-d");
     $url = $_POST['url'];
@@ -37,20 +38,18 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
 
     $lastInsertedfavoriId = $pdo->lastInsertId();
 
-      //echo 'je suis la categorie numéro: '. ;
+    /* Alimentation de la table cat_fav à l'aide d'une boucle-----------------------------*/
         $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
         VALUES (:lastInsertedfavoriId,:categorie);";
 
         $requetePrepare = $pdo->prepare($createRequest);
-    foreach ($_POST['categorie'] as $categorie) {
-  
+    foreach ($_POST['categorie'] as $categorie) {  
 
         $parameterArray = array(
             ':lastInsertedfavoriId' => $lastInsertedfavoriId,
             ':categorie' => $categorie
         );
         $requetePrepare->execute($parameterArray);
-
     }
 
 

@@ -45,17 +45,20 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
     $url = $_POST['url'];
     $idDomaine = $_POST['domaine'];
     $idFavori = $_GET['id_favori'];
-    var_dump($libelle);
-    var_dump($url);
-    var_dump($idDomaine);
-    var_dump($idFavori);
+    $idCategories = $_POST['categorie'];
+    print_r($idCategories);
+    //var_dump($libelle);
+    //var_dump($url);
+    //var_dump($idDomaine);
+    //var_dump($idFavori);
+    
 
     $updateRequestPrepare = "UPDATE favoris SET 
                       libelle    = :libelle, 
                       url        = :url, 
                       id_domaine = :idDomaine 
                       WHERE id_favori = :idFavori;";
-    var_dump($updateRequestPrepare);
+    //var_dump($updateRequestPrepare);
 
     $requetePrepare = $pdo->prepare($updateRequestPrepare);                  
     
@@ -66,8 +69,40 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
         ':idFavori'  => $idFavori
     );
 
-    $requetePrepare->execute($parameterArray);   
+    /*$requetePrepare->execute($parameterArray);*/  
+
+/* Étape 3=> Construction de la requêtte:MAJ de table categories en deux parts:*/
+
+    /*1)effacer toutes les données correspondantes au favori selectionné--------*/
+
+    $deleteCategorieRequest = "DELETE FROM cat_fav WHERE id_favori = :idFavori;";
     
+    $requetePrepare = $pdo->prepare($deleteCategorieRequest);
+    
+    $parameterArray = array(':idFavori' => $idFavori);
+
+    $requetePrepare->execute($parameterArray); 
+    
+    /*2)creer à nouveau les catégories selon le nouveau choix------------------*/
+
+    $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
+    VALUES (:id_favori,:categorie);";
+    //echo $createRequest;
+
+    $requetePrepare = $pdo->prepare($createRequest);
+
+    //echo $idFavori;
+    foreach ($idCategories as $categorie) {  
+
+        $parameterArray = array(
+            ':id_favori' => $idFavori,
+            ':categorie' => $categorie
+        );
+        
+        $requetePrepare->execute($parameterArray);
+    };
+
+    header('Location: index.php');
 
 } else {
     echo ('Keep on filling those fields!');
@@ -80,7 +115,7 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
 <html lang="en">
 
 <pre>
-<?php var_dump($_POST);?>
+<?php /*var_dump($idCategories);*/?>
 </pre>
 
 
