@@ -50,13 +50,13 @@
         INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
         WHERE 1=1 " . 
         $groupBy;
-        var_dump($requeteSQL);   
+        //var_dump($requeteSQL);   
     }     
     
     if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
         $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'];
-        var_dump($requeteSQL);
+        //var_dump($requeteSQL);
         
     } 
        
@@ -96,13 +96,13 @@
         $result = $pdo->query("SELECT * FROM domaine");
         $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
-    <!----------Options de tri et recherche----------------------------->
+    <!----------Options de tri et recherche--------------------------------------------------------------------------------->
     <div class="flex justify-center bg-gray-100 m-5" >    
-        <form class="w-full overflow-x-hidden flex flex-row items-center
-                     sm:block" 
+        <form class="w-full overflow-x-hidden items-center
+                     sm:flex" 
                     action="" method="GET">
             <!--Options de tri par categorie --------------------------> 
-            <div class="flex flex-col p-10 m-10
+            <div class="flex flex-col p-4
                         sm:flex-row">
                 <h2>Selectionnez une catégorie</h2>             
                 <select name="filtreCategorie" >
@@ -119,7 +119,7 @@
                 </select>
             </div>
             <!----Options de tri par domaine---------------------------->
-            <div class="flex flex-col p-10 m-10">
+            <div class="flex flex-col p-4">
 
                 <h2>Selectionnez un domaine</h2>            
                 <select name="filtreDomaine" > 
@@ -132,15 +132,15 @@
                     } 
                     ?>                
                 </select><br>
-
-                 <!--------------------recherche textuelle---------------------------------->
-                <div class="flex justify-center bg-gray-100 h-10 m-5 items-center">
-                    <label for="filtreTextuel">Barre de recherche</label>
-                    <input class="rounded  ml-20" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
+                <label for="filtreTextuel">Barre de recherche</label>
+                    <input class="rounded" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
+                 <!--------------------recherche textuelle--------------->
+                <div class=" bg-gray-100 p-4 items-center">
+                    
                 </div>
 
             </div>
-                <!----------------------Bouton filtrer-------------------------------------->
+                <!----------------------Bouton filtrer----------------------->
             <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
                 type="submit">Filtrer
             </button>
@@ -149,7 +149,7 @@
                  
     </div>
     
-    
+    <!--Formulaire----------------------------------------------------------------------------------------------->
 
     <section id="favoris" class="flex justify-center">      
         <table class="table_favori m-10 border border-gray-300 shadow-lg">            
