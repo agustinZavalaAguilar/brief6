@@ -11,5 +11,10 @@
                         >Ajouter
                         </button>
         </form>
-        
+        <a href="index.php"> 
+                <button class=" bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 m-14 border p-4
+                            border-gray-300 shadow-lg 
+                            fas fa-home">
+                </button> 
+        </a>
 </header>
