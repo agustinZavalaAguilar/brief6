@@ -154,14 +154,14 @@
         <table class="table_favori m-10 border border-gray-300 shadow-lg">            
             <!--Titres du tablau----------------------->
             <tr class="text-center text-blue-800 bg-gray-200 w-100">
-                <th>id favori</th>
+                <th>Id favori</th>
                 <th class="text-center text-blue-800">Libellé</th>
-                <th>date creation</th>
-                <th>url</th>
-                <th>nom categorie</th>
+                <th>Creation</th>
+                <th>Lien</th>
+                <th>Categorie</th>
                 <th>Actions</th>
             </tr>
-            <!---Registres generés en dynamique---->
+            <!---Registres generés en dynamique------------------------------------------------->
             <?php foreach ($favoris as $favori) { ?>
             <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
