@@ -165,8 +165,8 @@
             <?php foreach ($favoris as $favori) { ?>
             <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
-                <th class="font-normal text-left" >
-                    <a href=" <?= $favori['url'] ?>"><?= $favori['libelle'] ?></a>
+                <th class="font-normal text-left  max-w-60" >
+                    <a class="text-wrap" href=" <?= $favori['url'] ?>"><?= $favori['libelle'] ?></a>
                 </th>
                 <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
                 <th class="text-center font-normal text-left w-40" ><?= $favori['nom_domaine'] ?></th>

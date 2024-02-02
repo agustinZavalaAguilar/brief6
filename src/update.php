@@ -69,7 +69,7 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
         ':idFavori'  => $idFavori
     );
 
-    /*$requetePrepare->execute($parameterArray);*/  
+    $requetePrepare->execute($parameterArray);
 
 /* Étape 3=> Construction de la requêtte:MAJ de table categories en deux parts:*/
 
