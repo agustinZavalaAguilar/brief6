@@ -76,7 +76,7 @@
 
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
-
+  
     /*echo '<pre>';
     var_dump($favoris);
     echo '</pre>';*/
@@ -149,7 +149,7 @@
     </div>
     
     <!--Formulaire----------------------------------------------------------------------------------------------->
-
+    
     <section id="favoris" class="flex justify-center">      
         <table class="table_favori m-10 border border-gray-300 shadow-lg">            
             <!--Titres du tablau----------------------->
@@ -157,32 +157,34 @@
                 <th>Id favori</th>
                 <th class="text-center text-blue-800">Libellé</th>
                 <th>Creation</th>
-                <th>Lien</th>
-                <th>Categorie</th>
+                <th>Domaine</th>
+                <th>Categorie(s)</th>
                 <th>Actions</th>
             </tr>
             <!---Registres generés en dynamique------------------------------------------------->
             <?php foreach ($favoris as $favori) { ?>
             <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
-                <th class="font-normal text-left" ><?= $favori['libelle'] ?></th>
-                <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
-                <th class="text-center font-normal text-left w-40" >
-                    <a href=" <?= $favori['url'] ?>">Aller vers le site</a>
+                <th class="font-normal text-left" >
+                    <a href=" <?= $favori['url'] ?>"><?= $favori['libelle'] ?></a>
                 </th>
-                <th class="font-normal" ><?= $favori['nom_cat'] ?></th>
+                <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
+                <th class="text-center font-normal text-left w-40" ><?= $favori['nom_domaine'] ?></th>
+                <th class="font-normal" ><?= $favori['GROUP_CONCAT(categorie.nom_cat)'] ?></th>
 
-                <!------------------------Envoie vers la page individuelle------------------->
-                <th class="flex pt-2">
+                <!------------------------Case "Actions"-------------------------------------->
+                <th class="flex pt-2 pl-3 ">
+                    <!-----------------------Single page---------------->
                     <form action="singleFavori.php" method="get">
                         <button name="id_favori" value="<?php echo $favori['id_favori']?>">
                             <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
                         </button>
                     </form>
+                    <!-----------------------Udpate---------------------->
                     <a href="update.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
                         <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
                     </a>                   
-                    <!------------------------Envoie vers la page delete-------------------onclick="delete"----->
+                    <!------------------------Delete---------------------->
                     <a href="delete.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                     </a>
