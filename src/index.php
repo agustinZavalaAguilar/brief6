@@ -167,10 +167,13 @@
                 <th class="font-normal" ><?= $favori['id_favori'] ?></th>
                 <th class="font-normal text-left" ><?= $favori['libelle'] ?></th>
                 <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
-                <th class="font-normal text-left w-40" ><?= $favori['url'] ?></th>
+                <th class="text-center font-normal text-left w-40" >
+                    <a href=" <?= $favori['url'] ?>">Aller vers le site</a>
+                </th>
                 <th class="font-normal" ><?= $favori['nom_cat'] ?></th>
-                <th>
-                    <!------------------------Envoie vers la page individuelle------------------->
+
+                <!------------------------Envoie vers la page individuelle------------------->
+                <th class="flex pt-2">
                     <form action="singleFavori.php" method="get">
                         <button name="id_favori" value="<?php echo $favori['id_favori']?>">
                             <i class="fa-solid fa-eye text-blue-800 m-1 hover:text-white"></i>
@@ -183,7 +186,6 @@
                     <a href="delete.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                     </a>
-                    </form>
                 </th>
             </tr>
             <?php 
