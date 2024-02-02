@@ -1,7 +1,6 @@
 <header class=" justify-center items-center">
 
-        <h1 class="text-3xl font-bold text-blue-900 h-20 flex items-center justify-center font-roboto
-                  sm:m-8">
+        <h1 class="text-3xl font-bold text-blue-900 flex font-roboto text-center m-4">
                 Gestionnaire de favoris
         </h1>
            <div class=" flex justify-center">
@@ -16,8 +15,8 @@
                                 >Ajouter
                       </button>
                 </form>
-                <button onclick="toggleFilter()" class="fas fa-search bg-blue-400 text-white px-4 py-2 rounded h-10 
-                               m-4 border p-4 border-gray-300 shadow-lg">
+                <button onclick="toggleFilter()" class="fas fa-search bg-blue-400 text-white px-4 py-2 
+                                rounded h-10 m-4 ml-10 border p-4 border-gray-300 shadow-lg">
                 </button>
            </div>
 </header>

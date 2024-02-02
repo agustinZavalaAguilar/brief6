@@ -97,7 +97,7 @@
         $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <!----------Options de tri et recherche--------------------------------------------------------------------------------->
-    <div class=" justify-center bg-gray-100 m-5 align-middle" id="collapseFilter" >    
+    <div class=" justify-center bg-gray-100 m-5 align-middle hidden" id="collapseFilter" >    
         <form class="w-full overflow-x-hidden items-center
                      sm:flex" 
                     action="" method="GET">
