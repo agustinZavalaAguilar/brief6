@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/e14b518d69.js" crossorigin="anonymous"></script>
     <!-----------font Roboto--------------->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <script src="../js/script.js"></script>
+    <script src="script.js"></script>
 </head>
 
 <body class="">
@@ -97,7 +97,7 @@
         $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <!----------Options de tri et recherche--------------------------------------------------------------------------------->
-    <div class="flex justify-center bg-gray-100 m-5" >    
+    <div class=" justify-center bg-gray-100 m-5 align-middle" id="collapseFilter" >    
         <form class="w-full overflow-x-hidden items-center
                      sm:flex" 
                     action="" method="GET">

@@ -8,4 +8,13 @@ function confirmDelete() {
 
 }
 
+/*-------------Toggle function-------------------------------------------------- */
+
+function toggleFilter() {
+    console.log("Inside the function");
+    let section = document.getElementById('collapseFilter');
+    section.classList.toggle('hidden');
+}
+
+
 
