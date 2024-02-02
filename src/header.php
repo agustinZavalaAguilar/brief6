@@ -1,6 +1,6 @@
-<header class=" justify-center items-center">
+<header class="flex flex-col justify-center items-center">
 
-        <h1 class="text-3xl font-bold text-blue-900 flex font-roboto text-center m-4">
+        <h1 class="text-3xl font-bold text-blue-900 flex font-roboto m-4 text-center">
                 Gestionnaire de favoris
         </h1>
            <div class=" flex justify-center">

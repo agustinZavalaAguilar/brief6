@@ -97,7 +97,7 @@
         $libelle = $result->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <!----------Options de tri et recherche--------------------------------------------------------------------------------->
-    <div class=" justify-center bg-gray-100 m-5 align-middle hidden" id="collapseFilter" >    
+    <div class="justify-center bg-gray-100 m-5 align-middle hidden" id="collapseFilter" >    
         <form class="w-full overflow-x-hidden items-center
                      sm:flex" 
                     action="" method="GET">
@@ -132,14 +132,13 @@
                     } 
                     ?>                
                 </select><br>
-                <label for="filtreTextuel">Barre de recherche</label>
-                    <input class="rounded" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
-                 <!--------------------recherche textuelle--------------->
-                <div class=" bg-gray-100 p-4 items-center">
-                    
-                </div>
-
             </div>
+            <!--------------------recherche textuelle----------------------->
+            <div class=" bg-gray-100 p-4 items-center">
+                <label for="filtreTextuel">Barre de recherche</label>
+                <input class="rounded" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
+            </div>
+
                 <!----------------------Bouton filtrer----------------------->
             <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
                 type="submit">Filtrer
