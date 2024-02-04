@@ -1,5 +1,4 @@
 <?php
-include("header.php");
 include("pdo.php");
 /* Récupérer le tableau des domaines pour affichage dynamique en menu déroulant: ----*/
 $result = $pdo->query("SELECT * FROM domaine");
@@ -126,6 +125,8 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
     <script src="https://kit.fontawesome.com/e14b518d69.js" crossorigin="anonymous"></script>
     <title>Créer un favori</title>
 </head>
+
+<?php include("header.php"); ?>
 
 <body>
     <section>
