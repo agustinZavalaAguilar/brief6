@@ -156,24 +156,24 @@
             <tr class="text-center text-blue-800 bg-gray-200 w-100">
                 <th>Id favori</th>
                 <th class="text-center text-blue-800">Libellé</th>
-                <th>Creation</th>
-                <th>Domaine</th>
-                <th>Categorie(s)</th>
+                <th class="max-sm:hidden">Creation</th>
+                <th class="max-sm:hidden">Domaine</th>
+                <th class="max-sm:hidden">Categorie(s)</th>
                 <th>Actions</th>
             </tr>
             <!---Registres generés en dynamique------------------------------------------------->
             <?php foreach ($favoris as $favori) { ?>
             <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
-                <th class="font-normal" ><?= $favori['id_favori'] ?></th>
-                <th class="font-normal text-left  max-w-60" >
+                <td class="font-normal" ><?= $favori['id_favori'] ?></td>
+                <td class="font-normal text-left  max-w-60" >
                     <a class="text-wrap" href=" <?= $favori['url'] ?>"><?= $favori['libelle'] ?></a>
-                </th>
-                <th class="font-normal text-left" ><?= $favori['date_creation'] ?></th>
-                <th class="text-center font-normal text-left w-40" ><?= $favori['nom_domaine'] ?></th>
-                <th class="font-normal" ><?= $favori['GROUP_CONCAT(categorie.nom_cat)'] ?></th>
+                </td>
+                <td class="max-sm:hidden font-normal text-left>" ><?= $favori['date_creation'] ?></td>
+                <td class="max-sm:hidden text-center font-normal w-40" ><?= $favori['nom_domaine'] ?></td>
+                <td class="max-sm:hidden font-normal" ><?= $favori['GROUP_CONCAT(categorie.nom_cat)'] ?></td>
 
                 <!------------------------Case "Actions"-------------------------------------->
-                <th class="flex pt-2 pl-3 ">
+                <td class="flex pt-2 pl-3 ">
                     <!-----------------------Single page---------------->
                     <form action="singleFavori.php" method="get">
                         <button name="id_favori" value="<?php echo $favori['id_favori']?>">
@@ -188,7 +188,7 @@
                     <a href="delete.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                     </a>
-                </th>
+                </td>
             </tr>
             <?php 
             } 
