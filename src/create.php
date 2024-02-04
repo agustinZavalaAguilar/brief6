@@ -13,7 +13,7 @@ $cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
 
 /*verification formulaire renseigné-----------------------------------------------------*/
 if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
-    echo ('all fields have been validated!')?>"<br>"<?php ;   
+    //echo ('all fields have been validated!')?>"<br>"<?php ;   
     //print_r ($_POST['categorie'][0]); --> juste une verification
 
     /*Alimentation de la table favoris---------------------------------------------------*/
@@ -52,6 +52,8 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
         $requetePrepare->execute($parameterArray);
     }
 
+    header("Location: index.php");
+    exit();
 
 
 
@@ -78,7 +80,11 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
 
 
 } else {
-    echo ('Keep on filling those fields!');
+    echo '<script src="script.js"></script>';
+    echo '<script>';
+    echo 'completerChamps()';
+    echo '</script>';
+    
 }
 ;
 ?>
@@ -142,7 +148,9 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
                 <!-------------------Boutton submit---------------------------------------------->
                 <button class="font-bold bg-blue-400 hover:bg-blue-900
                         text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg"
-                        type="submit">Submit</button>
+                        type="submit">Submit
+                </button>
+
             </form>
         </div>
     </section>

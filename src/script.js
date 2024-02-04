@@ -14,5 +14,9 @@ function confirmDelete(favoriId){
     }
 }
 
+/*--------------Completer champs, condition pour la création ou modification de favoris */
 
+function completerChamps() {
+    alert("Tous les champs sont obligatoires pour la création ou la mise à jour d'un favori.");
+}
 

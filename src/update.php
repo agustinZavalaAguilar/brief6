@@ -37,7 +37,7 @@ $categoryIdArray = explode("," , $categoryIdsString);
 
 /* Étape 1=> validation des données:------------------------------------*/
 if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
-    echo ('all fields have been validated!')?>"<br>"<?php ;
+    //echo ('all fields have been validated!')?>"<br>"<?php ;
 
 /* Étape 2=> Construction et preparation de la première requêtte:MAJ de table favoris--*/
     $libelle = $_POST['libelle'];
@@ -102,9 +102,13 @@ if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domai
     };
 
     header('Location: index.php');
+    exit();
 
 } else {
-    echo ('Keep on filling those fields!');
+    echo '<script src="script.js"></script>';
+    echo '<script>';
+    echo 'completerChamps()';
+    echo '</script>';
 }
 
 ?>
