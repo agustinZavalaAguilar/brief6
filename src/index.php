@@ -185,7 +185,7 @@
                         <i class="fa-solid fa-pencil text-blue-800 m-1 hover:text-white"></i>
                     </a>                   
                     <!------------------------Delete---------------------->
-                    <a href="delete.php?id_favori=<?php echo $favori['id_favori']; ?>" name="id_favori" > 
+                    <a href="#" name="id_favori" id="delete" onclick="confirmDelete(<?php echo $favori['id_favori']; ?>);"> 
                         <i class="fa-solid fa-trash text-blue-800 m-1 hover:text-white"></i>
                     </a>
                 </td>
