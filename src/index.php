@@ -164,7 +164,7 @@
             <!---Registres generés en dynamique------------------------------------------------->
             <?php foreach ($favoris as $favori) { ?>
             <tr class="h-10 ml-10 bg-gray-100 hover:bg-blue-900 hover:text-white border border-gray-200 font-normal mx-auto max-w-screen-md even:bg-white odd:bg-gray-200">
-                <td class="font-normal" ><?= $favori['id_favori'] ?></td>
+                <td class="text-center font-normal" ><?= $favori['id_favori'] ?></td>
                 <td class="font-normal text-left  max-w-60" >
                     <a class="text-wrap" href=" <?= $favori['url'] ?>"><?= $favori['libelle'] ?></a>
                 </td>

@@ -1,5 +1,5 @@
 <?php
-include("header.php");
+
 include("pdo.php");
 
 $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
@@ -26,32 +26,22 @@ $favoris = $result->fetch(PDO::FETCH_ASSOC);
     <script src="https://kit.fontawesome.com/e14b518d69.js" crossorigin="anonymous"></script>
     <title>Single Favori</title>
 </head>
-
-<body>
-
-    <section >
-        <div class="flex justify-center text-blue-800 bg-gray-200">
-            <h1></strong><?php echo $favoris['libelle'] ?></h1>
+<?php include("header.php");?>
+<body class="flex flex-col items-center">
+    <section class="flex flex-col max-w-2xl min-h-2xl m-4 p-3 justify-center">
+        <div class="mb-3 p-3 flex justify-center text-blue-800 bg-gray-200 rounded-lg">
+            <h1><strong><?php echo $favoris['libelle'] ?></strong></h1>
         </div>
-        <div class="flex justify-center  ">
-            <ul class="bg-gray-100">
+        <div class="">
+            <ul class="leading-10 p-3 min-h-64 bg-gray-100 rounded-lg">
                 <li><strong>Date de création: </strong><?php echo $favoris['date_creation'] ?></li>
                 <li><strong>URL: </strong><a href="<?php echo $favoris['url'] ?>"> <?php echo $favoris['url'] ?></a></li>
                 <li><strong>Catégorie: </strong><?php echo $favoris['nom_cat'] ?></li>
                 <li><strong>Domaine: </strong><?php echo $favoris['nom_domaine'] ?></li>
-                <li>
-                   <a href="index.php"> 
-                        <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 m-14 border
-                                 border-gray-300 shadow-lg
-                                    fas fa-arrow-left">
-                        </button> 
-                    </a>
-                </li>
-
             </ul>
-
         </div>  
     </section>
 
 </body>
+
 </html>
