@@ -12,79 +12,60 @@ $result = $pdo->query("SELECT * FROM cat_fav");
 $cat_fav = $result->fetchAll(PDO::FETCH_ASSOC);
 
 /*verification formulaire renseigné-----------------------------------------------------*/
-if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
-    //echo ('all fields have been validated!')?>"<br>"<?php ;   
-    //print_r ($_POST['categorie'][0]); --> juste une verification
+try {
+    if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
+        //echo ('all fields have been validated!')?>"<br>"<?php ;   
+        //print_r ($_POST['categorie'][0]); --> juste une verification
 
-    /*Alimentation de la table favoris---------------------------------------------------*/
-    $libelle = $_POST['libelle'];
-    $dateCreation = date("Y-m-d");
-    $url = $_POST['url'];
-    $idDomaine= $_POST['domaine'];
+        /*Alimentation de la table favoris---------------------------------------------------*/
+        $libelle = $_POST['libelle'];
+        $dateCreation = date("Y-m-d");
+        $url = $_POST['url'];
+        $idDomaine= $_POST['domaine'];
 
-    $createRequestprepare = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
-                      VALUES (:libelle,:dateCreation,:url, :domaine);";
-    
-    $requetePrepare = $pdo->prepare($createRequestprepare);
-    
-    $parameterArray = array(
-        ':libelle'       => $libelle,
-        ':dateCreation'  => $dateCreation,
-        ':url'           => $url,
-        ':domaine'       => $idDomaine
-    );
-    
-    $requetePrepare->execute($parameterArray);
-
-    $lastInsertedfavoriId = $pdo->lastInsertId();
-
-    /* Alimentation de la table cat_fav à l'aide d'une boucle-----------------------------*/
-        $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
-        VALUES (:lastInsertedfavoriId,:categorie);";
-
-        $requetePrepare = $pdo->prepare($createRequest);
-    foreach ($_POST['categorie'] as $categorie) {  
-
+        $createRequestprepare = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
+                        VALUES (:libelle,:dateCreation,:url, :domaine);";
+        
+        $requetePrepare = $pdo->prepare($createRequestprepare);
+        
         $parameterArray = array(
-            ':lastInsertedfavoriId' => $lastInsertedfavoriId,
-            ':categorie' => $categorie
+            ':libelle'       => $libelle,
+            ':dateCreation'  => $dateCreation,
+            ':url'           => $url,
+            ':domaine'       => $idDomaine
         );
+        
         $requetePrepare->execute($parameterArray);
+
+        $lastInsertedfavoriId = $pdo->lastInsertId();
+
+        /* Alimentation de la table cat_fav à l'aide d'une boucle-----------------------------*/
+            $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
+            VALUES (:lastInsertedfavoriId,:categorie);";
+
+            $requetePrepare = $pdo->prepare($createRequest);
+        foreach ($_POST['categorie'] as $categorie) {  
+
+            $parameterArray = array(
+                ':lastInsertedfavoriId' => $lastInsertedfavoriId,
+                ':categorie' => $categorie
+            );
+            $requetePrepare->execute($parameterArray);
+        }
+
+        header("Location: index.php?resultat=5");
+        exit();
+        
+    } else {
+        echo '<script src="script.js"></script>';
+        echo '<script>';
+        echo 'completerChamps()';
+        echo '</script>';
     }
-
-    header("Location: index.php");
+        
+} catch(PDOException $e) {
+    header("Location: index.php?resultat=6");
     exit();
-
-
-
-
-
-    /*Alimentation de la table favoris-------------------------------------------------------*/      
-    /*$createRequest = "INSERT INTO favoris (libelle, date_creation, url, id_domaine)
-                      VALUES ('" . $_POST['libelle'] . "','" . $dateCreation . "', '" . $_POST['url'] . "', '" . $_POST['domaine'] . "');";
-
-    $pdo->query($createRequest); 
-
-    /*Récupère le dernier id favoris crée afin d'alimenter la table cat_fav------------------*/
-    /*$lastInsertedfavoriId = $pdo->lastInsertId();
-    echo $lastInsertedfavoriId?>"<br>"<?php ;
-    var_dump($_POST['categorie'])?>"<br>"<?php ;      
-
-    /*Alimentation de la table cat_fav---------------------------------------------------*/
-    /*foreach ($_POST['categorie'] as $categorie) {
-        //echo 'je suis la categorie numéro: '. ;
-        $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
-        VALUES ('" . $lastInsertedfavoriId . "','" . $categorie . "');";
-        $pdo->query($createRequest);  
-    }*/
-
-
-} else {
-    echo '<script src="script.js"></script>';
-    echo '<script>';
-    echo 'completerChamps()';
-    echo '</script>';
-    
 }
 ;
 ?>

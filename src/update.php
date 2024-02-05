@@ -34,81 +34,87 @@ $categoryIdArray = explode("," , $categoryIdsString);
 //echo "categories: " . $categoryIdsString;
 
 /*Construction de la requête:-------------------------------------------------------------------*/
+try {
 
-/* Étape 1=> validation des données:------------------------------------*/
-if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
-    //echo ('all fields have been validated!')?>"<br>"<?php ;
+    /* Étape 1=> validation des données:------------------------------------*/
+    if (!empty($_POST['libelle'] ) && !empty($_POST['url'] ) && !empty($_POST['domaine'] ) && !empty($_POST['categorie'] ) ) {
+        //echo ('all fields have been validated!')?>"<br>"<?php ;
 
-/* Étape 2=> Construction et preparation de la première requêtte:MAJ de table favoris--*/
-    $libelle = $_POST['libelle'];
-    $url = $_POST['url'];
-    $idDomaine = $_POST['domaine'];
-    $idFavori = $_GET['id_favori'];
-    $idCategories = $_POST['categorie'];
-    print_r($idCategories);
-    //var_dump($libelle);
-    //var_dump($url);
-    //var_dump($idDomaine);
-    //var_dump($idFavori);
-    
-
-    $updateRequestPrepare = "UPDATE favoris SET 
-                      libelle    = :libelle, 
-                      url        = :url, 
-                      id_domaine = :idDomaine 
-                      WHERE id_favori = :idFavori;";
-    //var_dump($updateRequestPrepare);
-
-    $requetePrepare = $pdo->prepare($updateRequestPrepare);                  
-    
-    $parameterArray = array(
-        ':libelle'   => $libelle,
-        ':url'       => $url,
-        ':idDomaine' => $idDomaine,
-        ':idFavori'  => $idFavori
-    );
-
-    $requetePrepare->execute($parameterArray);
-
-/* Étape 3=> Construction de la requêtte:MAJ de table categories en deux parts:*/
-
-    /*1)effacer toutes les données correspondantes au favori selectionné--------*/
-
-    $deleteCategorieRequest = "DELETE FROM cat_fav WHERE id_favori = :idFavori;";
-    
-    $requetePrepare = $pdo->prepare($deleteCategorieRequest);
-    
-    $parameterArray = array(':idFavori' => $idFavori);
-
-    $requetePrepare->execute($parameterArray); 
-    
-    /*2)creer à nouveau les catégories selon le nouveau choix------------------*/
-
-    $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
-    VALUES (:id_favori,:categorie);";
-    //echo $createRequest;
-
-    $requetePrepare = $pdo->prepare($createRequest);
-
-    //echo $idFavori;
-    foreach ($idCategories as $categorie) {  
-
-        $parameterArray = array(
-            ':id_favori' => $idFavori,
-            ':categorie' => $categorie
-        );
+    /* Étape 2=> Construction et preparation de la première requêtte:MAJ de table favoris--*/
+        $libelle = $_POST['libelle'];
+        $url = $_POST['url'];
+        $idDomaine = $_POST['domaine'];
+        $idFavori = $_GET['id_favori'];
+        $idCategories = $_POST['categorie'];
+        print_r($idCategories);
+        //var_dump($libelle);
+        //var_dump($url);
+        //var_dump($idDomaine);
+        //var_dump($idFavori);
         
+
+        $updateRequestPrepare = "UPDATE favoris SET 
+                        libelle    = :libelle, 
+                        url        = :url, 
+                        id_domaine = :idDomaine 
+                        WHERE id_favori = :idFavori;";
+        //var_dump($updateRequestPrepare);
+
+        $requetePrepare = $pdo->prepare($updateRequestPrepare);                  
+        
+        $parameterArray = array(
+            ':libelle'   => $libelle,
+            ':url'       => $url,
+            ':idDomaine' => $idDomaine,
+            ':idFavori'  => $idFavori
+        );
+
         $requetePrepare->execute($parameterArray);
-    };
 
-    header('Location: index.php');
+    /* Étape 3=> Construction de la requêtte:MAJ de table categories en deux parts:*/
+
+        /*1)effacer toutes les données correspondantes au favori selectionné--------*/
+
+        $deleteCategorieRequest = "DELETE FROM cat_fav WHERE id_favori = :idFavori;";
+        
+        $requetePrepare = $pdo->prepare($deleteCategorieRequest);
+        
+        $parameterArray = array(':idFavori' => $idFavori);
+
+        $requetePrepare->execute($parameterArray); 
+        
+        /*2)creer à nouveau les catégories selon le nouveau choix------------------*/
+
+        $createRequest = "INSERT INTO cat_fav (id_favori, id_categorie)
+        VALUES (:id_favori,:categorie);";
+        //echo $createRequest;
+
+        $requetePrepare = $pdo->prepare($createRequest);
+
+        //echo $idFavori;
+        foreach ($idCategories as $categorie) {  
+
+            $parameterArray = array(
+                ':id_favori' => $idFavori,
+                ':categorie' => $categorie
+            );
+            
+            $requetePrepare->execute($parameterArray);
+        };
+
+        header('Location: index.php?resultat=3');
+        exit();
+
+    } else {
+        echo '<script src="script.js"></script>';
+        echo '<script>';
+        echo 'completerChamps()';
+        echo '</script>';
+    }
+} catch(PDOException $e) {
+
+    header("Location: index.php?resultat=4");
     exit();
-
-} else {
-    echo '<script src="script.js"></script>';
-    echo '<script>';
-    echo 'completerChamps()';
-    echo '</script>';
 }
 
 ?>

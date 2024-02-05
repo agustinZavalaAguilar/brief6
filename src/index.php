@@ -11,7 +11,7 @@
     <script src="script.js"></script>
 </head>
 
-<body class="">
+<body class="flex flex-col items-center">
     
     <?php 
     /*Pour lisibilité, le header a été placé dans un autre fichier et "include" le recupère*/
@@ -22,45 +22,43 @@
     /*---------------------------Affichage erreur ou succès dans les requettes delete, création; MAJ...---------*/
     if(isset($_GET['resultat'])){
         $resultat = $_GET['resultat'];
-        var_dump($_GET['resultat']);
+        //var_dump($_GET['resultat']);
       
         switch($resultat) {
             case "1": 
-                echo '<h1 class="text-center">Suppression réussise<h1>';
+                $message = 'suppression réussie';
                 break;
 
             case "2": 
-                echo '<h1 class="text-center">La suppression à échoué, veuillez réessayer<h1>';
+                $message = 'La suppression à échoué, veuillez réessayer';
                 break;
             
             case "3": 
-                    echo '<h1 class="text-center">La mise à jour à bien été effectuée<h1>';
-                    break;
+                $message = 'La mise à jour à bien été effectuée';
+                break;
 
             case "4": 
-                echo '<h1 class="text-center">La mise à jour à échoué, veuillez réessayer<h1>';
+                $message = 'La mise à jour à échoué, veuillez réessayer';
                 break;
 
             case "5": 
-                echo '<h1 class="text-center">Le favoris à bien été crée<h1>';
+                $message = 'Le favoris à bien été crée';
                 break;
 
             case "6": 
-                echo "<h1 class='text-center'>L'ajout de favori à échoué, veuillez réessayer<h1>";
+                $message = "L'ajout de favori à échoué, veuillez réessayer<h1>";
                 break;
         }
         
+        echo '<div 
+                class=" bg-blue-600 text-white px-4 py-2 rounded h-10 border
+                     border-gray-300 shadow-lg text-center w-80">
+                        <h1 class="" id="resultatRequete">
+                            ' . $message . '
+                        <h1>
+            </div>';
+
         }
-    
-    
-
-
-
-
-
-
-
-
 
 
     /* La requête SQL effectue le trie propose sur le DOM. Je l'ai générée sur phpMyAdmin pour confort 
