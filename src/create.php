@@ -29,8 +29,8 @@ try {
         $requetePrepare = $pdo->prepare($createRequestprepare);
         
         $parameterArray = array(
-            ':libelle'       => $libelle,
-            ':dateCreation'  => $dateCreation,
+            ':libelle'       => htmlspecialchars($libelle),
+            ':dateCreation'  => urlencode($dateCreation),
             ':url'           => $url,
             ':domaine'       => $idDomaine
         );
