@@ -4,8 +4,10 @@
 
 //On recupère les constantes de connexion definis dans require.php
 require("connect.php");
+
 /*On prepara la connection à la base de donnees*/
 $dsn = "mysql:dbname=". BASE . ";host=" . SERVER;
+
 //On verifie si nous n'avons pas d'erreurs dans la connection à la bdd
 try {
     $pdo = new PDO($dsn,USER,PASSWORD,array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
@@ -13,8 +15,4 @@ try {
     echo 'Impossible de connecter'. $e->getMessage();
     exit();
 }
-//---------------------------------------------------------
-//echo '<pre>'; print_r($pdo); echo '</pre>';
-//echo '<pre>'; print_r(get_class_methods($pdo)); echo '</pre>';
-
 ?>

@@ -18,13 +18,56 @@
     include("header.php");
     /*PDO se connecte à la base de donées */
     include("pdo.php");
+
+    /*---------------------------Affichage erreur ou succès dans les requettes delete, création; MAJ...---------*/
+    if(isset($_GET['resultat'])){
+        $resultat = $_GET['resultat'];
+        var_dump($_GET['resultat']);
+      
+        switch($resultat) {
+            case "1": 
+                echo '<h1 class="text-center">Suppression réussise<h1>';
+                break;
+
+            case "2": 
+                echo '<h1 class="text-center">La suppression à échoué, veuillez réessayer<h1>';
+                break;
+            
+            case "3": 
+                    echo '<h1 class="text-center">La mise à jour à bien été effectuée<h1>';
+                    break;
+
+            case "4": 
+                echo '<h1 class="text-center">La mise à jour à échoué, veuillez réessayer<h1>';
+                break;
+
+            case "5": 
+                echo '<h1 class="text-center">Le favoris à bien été crée<h1>';
+                break;
+
+            case "6": 
+                echo "<h1 class='text-center'>L'ajout de favori à échoué, veuillez réessayer<h1>";
+                break;
+        }
+        
+        }
+    
+    
+
+
+
+
+
+
+
+
+
+
     /* La requête SQL effectue le trie propose sur le DOM. Je l'ai générée sur phpMyAdmin pour confort 
     et pour la tester avant de l'implementer sur l'index*/
     $requeteSQL="";
-    /*echo $_GET['filtreDomaine'];
-    var_dump(isset($_GET['filtreCategorie']));*/
 
-    //Ci-dessous ma requête qui permettra d'effectuer le tri:-----------------------------------------------------
+    //Ci-dessous la requête qui permettra d'effectuer le tri:-----------------------------------------------------
     
    /* Je declare ces deux variables pour construire ma requette:
    le syntaxe SQL oblige à placer le GROUP BY à la fin de la requêtte, ce qui difficulte le
@@ -49,15 +92,13 @@
         INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
         INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
         WHERE 1=1 " . 
-        $groupBy;
-        //var_dump($requeteSQL);   
+        $groupBy; 
     }     
     
     if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
         $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'];
-        //var_dump($requeteSQL);
-        
+
     } 
        
     if (!empty($_GET['filtreDomaine'])) { /* !empty verifie qu'il y ait un valeur attribué à 
@@ -69,25 +110,13 @@
         $_GET['filtreTextuel']*/
     $requeteSQL .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'"; 
     }
-        
     ;
     
-    /*var_dump($_GET['filtreTextuel']);*/
-
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    /*--Requête par domaine-------------------------------------------------------------------------------------*/   
   
-    /*echo '<pre>';
-    var_dump($favoris);
-    echo '</pre>';*/
-    
-
-   /* $categories = $result->fetchAll(PDO::FETCH_ASSOC);*/
-
-    ?>
-
-    <!--Requête par domaine------------------------------------------------------------------------------------->   
-    <?php 
     
         $result = $pdo->query("SELECT * FROM categorie");
         $categories = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -139,7 +168,7 @@
                 <input class="rounded" type="search" name="filtreTextuel" placeholder="Écris ici ta recherche">
             </div>
 
-                <!----------------------Bouton filtrer----------------------->
+            <!----------------------Bouton filtrer----------------------->
             <button class="font-bold bg-blue-400 hover:bg-blue-900 text-white px-4 py-2 rounded h-10 ml-20 border border-gray-300 shadow-lg" 
                 type="submit">Filtrer
             </button>
