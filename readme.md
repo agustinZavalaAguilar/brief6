@@ -56,6 +56,16 @@ reconstruisez votre CSS avec le commande: npx tailwindcss -i ./src/input.css -o 
 
 Videz ensuite le cache: ctrl + shift + r
 
+## Conexion à la base de donnés
+
+ Afin d'établir la connexion, créer un fichier "connect.php" dans le dossier "src" à partir 
+ 
+ du fichier src/connect-model.php et compléter les informations pour "Server", "User", "Password et "Base"
+
+ 
+
+
+
 
 
 
