@@ -76,76 +76,37 @@
    /* Je declare ces deux variables pour construire ma requette:
    le syntaxe SQL oblige à placer le GROUP BY à la fin de la requêtte, ce qui difficulte le
    cumul des conditions*/ 
-    $groupConcat = ""; 
-    $groupBy = "";
 
-    $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
-    INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
-    INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
-    INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-    WHERE 1=1 ";
 
-    if (empty($_GET['filtreCategorie']) && empty($_GET['filtreDomaine']) && empty($_GET['filtreTextuel'])) { 
-        
-        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
-        $groupBy = "GROUP BY favoris.id_favori;";
-        
-        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
-        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
-        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
-        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-        WHERE 1=1 " . 
-        $groupBy; 
-    }     
+
+    $condition = "";
     
     if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
-        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
-        $groupBy = "GROUP BY favoris.id_favori;";
-
-        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
-        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
-        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
-        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-        WHERE 1=1 ";
-        
-        
-        $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'] . " " ;
-        $requeteSQL .= $groupBy;
-        /*var_dump($requeteSQL);*/
+        $condition .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'] . " " ;
     } 
        
     if (!empty($_GET['filtreDomaine'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
-        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
-        $groupBy = "GROUP BY favoris.id_favori;";
 
-        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
-        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
-        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
-        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-        WHERE 1=1 ";
-
-        $requeteSQL .= " AND domaine.id_domaine         = " . $_GET['filtreDomaine'] . " " ; 
-        $requeteSQL .= $groupBy;
+        $condition .= " AND domaine.id_domaine         = " . $_GET['filtreDomaine'] . " " ; 
         
     }
     
     if (!empty($_GET['filtreTextuel'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreTextuel']*/
-        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
-        $groupBy = "GROUP BY favoris.id_favori;";
 
-        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
-        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
-        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
-        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-        WHERE 1=1 ";
-
-        $requeteSQL .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'";
-        $requeteSQL .= $groupBy; 
+        $condition .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'";
     }
     ;
+
+    $requeteSQL = "SELECT  *, GROUP_CONCAT(categorie.nom_cat) FROM favoris 
+    INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+    INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+    INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+    WHERE 1=1 " . 
+    $condition .
+    " GROUP BY favoris.id_favori;";
   
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
