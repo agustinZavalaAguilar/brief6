@@ -43,6 +43,7 @@
 
             case "5": 
                 $message = 'Le favoris à bien été crée';
+               
                 break;
 
             case "6": 
@@ -51,12 +52,17 @@
         }
         
         echo '<div 
-                class=" bg-blue-600 text-white px-4 py-2 rounded h-10 border
+                class="transition-opacity duration-500 ease-in-out opacity-100 bg-blue-800 text-white px-4 py-2 rounded h-10 border
                      border-gray-300 shadow-lg text-center w-80">
                         <h1 class="" id="resultatRequete">
                             ' . $message . '
                         <h1>
             </div>';
+
+            echo '<script src="script.js"></script>';
+            echo '<script>';
+            echo 'cacherConfimation()';
+            echo '</script>';
 
         }
 

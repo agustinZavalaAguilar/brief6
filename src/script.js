@@ -20,3 +20,9 @@ function completerChamps() {
     alert("Tous les champs sont obligatoires pour la création ou la mise à jour d'un favori.");
 }
 
+/* --------------Faire disparaitre la confirmation après une modification à la bdd------*/
+
+function cacherConfimation() {
+    console.log("inside the function cacherConfimation");
+}
+
