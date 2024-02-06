@@ -83,8 +83,7 @@
     INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
     INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
     INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
-    WHERE 1=1 " . 
-    $groupBy;
+    WHERE 1=1 ";
 
     if (empty($_GET['filtreCategorie']) && empty($_GET['filtreDomaine']) && empty($_GET['filtreTextuel'])) { 
         
@@ -101,23 +100,59 @@
     
     if (!empty($_GET['filtreCategorie'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreCategorie']*/
-        $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'];
+        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+        $groupBy = "GROUP BY favoris.id_favori;";
 
+        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
+        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+        WHERE 1=1 ";
+        
+        
+        $requeteSQL .= " AND categorie.id_categorie     = " . $_GET['filtreCategorie'] . " " ;
+        $requeteSQL .= $groupBy;
+        /*var_dump($requeteSQL);*/
     } 
        
     if (!empty($_GET['filtreDomaine'])) { /* !empty verifie qu'il y ait un valeur attribué à 
-            $_GET['filtreCategorie']*/
-        $requeteSQL .= " AND domaine.id_domaine         = " . $_GET['filtreDomaine']; 
+        $_GET['filtreCategorie']*/
+        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+        $groupBy = "GROUP BY favoris.id_favori;";
+
+        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
+        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+        WHERE 1=1 ";
+
+        $requeteSQL .= " AND domaine.id_domaine         = " . $_GET['filtreDomaine'] . " " ; 
+        $requeteSQL .= $groupBy;
+        
     }
     
     if (!empty($_GET['filtreTextuel'])) { /* !empty verifie qu'il y ait un valeur attribué à 
         $_GET['filtreTextuel']*/
-    $requeteSQL .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'"; 
+        $groupConcat = ", GROUP_CONCAT(categorie.nom_cat)"; 
+        $groupBy = "GROUP BY favoris.id_favori;";
+
+        $requeteSQL = "SELECT  *" . $groupConcat . " FROM favoris 
+        INNER JOIN cat_fav    ON favoris.id_favori = cat_fav.id_favori 
+        INNER JOIN categorie  ON categorie.id_categorie = cat_fav.id_categorie
+        INNER JOIN domaine    ON domaine.id_domaine = favoris.id_domaine
+        WHERE 1=1 ";
+
+        $requeteSQL .= " AND libelle LIKE                    '%" . $_GET['filtreTextuel'] . "%'";
+        $requeteSQL .= $groupBy; 
     }
     ;
-    
+  
     $result = $pdo->query($requeteSQL);
     $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    /*echo '<pre>';
+    var_dump($favoris);
+    echo '</pre>';*/
 
     /*--Requête par domaine-------------------------------------------------------------------------------------*/   
   
@@ -180,6 +215,18 @@
         </form>
                  
     </div>
+
+    <?php
+    /*echo '<pre>;';
+    
+    echo $favoris['GROUP_CONCAT(categorie.nom_cat)'];
+    $groupConcatContents = $favoris['GROUP_CONCAT(categorie.nom_cat)'];
+    $categoriesArray = explode(';', $groupConcatContents);
+    echo $categoriesArray;
+
+    echo '</pre>';*/
+
+     ?>               
     
     <!--Formulaire----------------------------------------------------------------------------------------------->
     
